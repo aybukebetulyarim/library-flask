@@ -6,7 +6,7 @@ from tables import LibraryTable, LoginfoTable
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/librarydatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home//Desktop/library/librarydatabase.db'
 db = SQLAlchemy(app)
 
 
