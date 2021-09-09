@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <button type="button" class="btn btn-info"><a href="addBook">Add Book</a></button>
+    
+    <h1>BOOK TABLE</h1>
+    <style>
+          @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+
+        *, *:before, *:after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+
+        body {
+        background: whitesmoke;
+        font-family: 'Cambria', sans-serif;
+        }
+        h1{
+          color: #1c92ee;
+          margin:100px;
+          text-align: center;
+        }
+        table {
+        background: #3a3b3b;
+        border-radius: 0.25em;
+        border-collapse: collapse;
+        margin: 100px auto;
+        }
+        th {
+        border-bottom: 1px solid #000000;
+        color: #1c92ee;
+        font-size: 0.85em;
+        font-weight: 600;
+        padding: 0.5em 1em;
+        text-align: center;
+        }
+        td {
+        color: #fff;
+        font-weight: 400;
+        padding: 0.65em 1em;
+        text-align:center;
+        }
+        .disabled td {
+        color: #4F5F64;
+        }
+        tbody tr {
+        transition:0.25s ease;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Book Name</th>
+            <th>Edition Year</th>
+            <th>Author</th>
+            <th>Owner Name</th>
+            <th>Category</th>
+            <th>Translator</th>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr>
+            <td>{{ book.book_id }}</td>
+            <td>{{ book.book_name }}</td>
+            <td>{{ book.edition_year }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.owner_name }}</td>
+            <td>{{ book.category }}</td>
+            <td>{{ book.translator }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html> 
