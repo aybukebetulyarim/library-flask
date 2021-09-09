@@ -6,8 +6,12 @@ from tables import LibraryTable, LoginfoTable
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+<<<<<<< HEAD
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/librarydatabase.db'
 
+=======
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home//Desktop/library/librarydatabase.db'
+>>>>>>> a04e15e7263162971f69acb77a8ed9172f0677bf
 db = SQLAlchemy(app)
 
 
@@ -25,6 +29,7 @@ def listofBooks():
     # db.session.add(book)
     books = db.session.query(LibraryTable).all()
     db.session.commit()
+<<<<<<< HEAD
     return render_template("books.html",books=books)
 
 @app.route("/addBook", methods=["POST","GET"])
@@ -35,3 +40,6 @@ if __name__ == '__main__':
     app.run(host='192.168.1.134',debug=True,port=5000)
 
  
+=======
+    return render_template("book.html",book_ht=book)
+>>>>>>> a04e15e7263162971f69acb77a8ed9172f0677bf
