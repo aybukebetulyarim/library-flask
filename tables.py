@@ -5,12 +5,8 @@ import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-<<<<<<< HEAD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/librarydatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/database.db'
 
-=======
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home//Desktop/library/librarydatabase.db'
->>>>>>> a04e15e7263162971f69acb77a8ed9172f0677bf
 db = SQLAlchemy(app) 
 
 class LibraryTable(db.Model):

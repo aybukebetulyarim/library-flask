@@ -11,26 +11,26 @@
     <div style="margin-Top:150px;" class="container">
         <h3>Sign Up</h3>
         <hr>
-        <form action="/signup" method="POST">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-            </div>
+        <form method="POST">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Name" aria-label="Username">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+                <input type="text" name="userName" class="form-control" placeholder="Name" aria-label="Username">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Surname</label>
-                <input type="text" class="form-control" placeholder="Surname" aria-label="Username">
+                <input type="text" name="userSurname" class="form-control" placeholder="Surname" aria-label="Username">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Username</label>
+                <input type="text" name="username2" class="form-control" placeholder="Username" aria-label="Username">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter a password">
+              <input type="password" name="userPass" class="form-control" id="exampleInputPassword1" placeholder="Enter a password">
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -40,8 +40,8 @@
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Admin</label>
             </div>
+            <button class="btn btn-primary">Sign Up</button>
         </form>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

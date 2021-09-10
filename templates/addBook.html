@@ -11,32 +11,32 @@
     <div style="margin-Top:150px;" class="container">
         <h3>Add Book</h3>
         <hr>
-        <form action="/addBook" method="POST">
+        <form method="POST">
             <p>Please write a book name</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Book Name" aria-label="Book Name" aria-describedby="basic-addon1">
+                <input type="text" name="book_name" class="form-control" placeholder="Book Name" aria-label="Book Name" aria-describedby="basic-addon1">
             </div>
             <p>Please write an edition year</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Edition Year" aria-label="Edition Year" aria-describedby="basic-addon1">
+                <input type="text" name="edition_year" class="form-control" placeholder="Edition Year" aria-label="Edition Year" aria-describedby="basic-addon1">
             </div>
             <p>Please write book writer name</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon1">
+                <input type="text" name="author" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon1">
             </div>
             <p>Please write owner name</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Owner" aria-label="Owner" aria-describedby="basic-addon1">
+                <input type="text" name="owner_name" class="form-control" placeholder="Owner" aria-label="Owner" aria-describedby="basic-addon1">
             </div>
             <p>Please write category name</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="basic-addon1">
+                <input type="text" name="category" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="basic-addon1">
             </div>
             <p>Please write translator name</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Translator" aria-label="Translator" aria-describedby="basic-addon1">
+                <input type="text" name="translator" class="form-control" placeholder="Translator" aria-label="Translator" aria-describedby="basic-addon1">
             </div>
-            <button type="submit" class="btn btn-primary">Updated</button>
+            <button class="btn btn-primary">Updated</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
