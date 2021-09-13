@@ -16,14 +16,14 @@
     <div style="margin-Top:150px;" class="container">
         <h3>Welcome to Library</h3>
         <hr>
-        <form action="/books" method="POST">
+        <form method="POST">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter a password">
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Enter a password">
             </div>
             <button type="submit" class="btn btn-primary">Sign In</button>
             <div class="input-group mb-3">

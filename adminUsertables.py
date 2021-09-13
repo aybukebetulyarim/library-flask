@@ -2,17 +2,15 @@ from enum import unique
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import datetime
-from flask_login import UserMixin
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'thisisasecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/librarydatabase.db'
 
 db = SQLAlchemy(app) 
 
-class Admin(UserMixin, db.Model):
+class Admin(db.Model):
     __tablename__ = "admin"
     admin_id      = db.Column(db.Integer, primary_key=True)
     adminName     = db.Column(db.String, unique=True)
@@ -28,7 +26,7 @@ class Admin(UserMixin, db.Model):
         self.adminEmail    = adminEmail
         self.adminPass     = adminPass
 
-class User(UserMixin,db.Model):
+class User(db.Model):
     __tablename__ = "user"
     user_id       = db.Column(db.Integer, primary_key=True)
     userName      = db.Column(db.String, unique=True)
