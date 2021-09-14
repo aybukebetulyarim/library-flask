@@ -1,13 +1,13 @@
 from flask import Flask, render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+import datetime, logging
 from tables import LibraryTable, LoginfoTable
 from member import Member
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/turkai/Desktop/library/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 db = SQLAlchemy(app)
 
@@ -18,18 +18,21 @@ def index():
             username = request.values.get("username")
             password = request.values.get("password")
            
-            if username==" " or password==" ":
-                return render_template("index.html")
+            if username=="" or username==None or password=="" or password == None:
+                return render_template("index.html", isAlert=True, alertMessage="Kullanıcı adı ve şifrenizi giriniz.")
             else:
                 nameQuery = db.session.query(Member.memberNick).filter(Member.memberNick==username).first()
                 passQuery = db.session.query(Member.memberPass).filter(Member.memberPass==password).first()
-                if nameQuery[0] == username and passQuery[0] == password:
-                    return redirect(url_for("listofBooks"))
+                
+                if nameQuery != None or passQuery != None:
+                    if nameQuery[0] == username and passQuery[0] == password:
+                        return redirect(url_for("listofBooks"))
                 else:
-                    return render_template("index.html")  
-        return render_template("index.html")
+                    return render_template("index.html", isAlert=True, alertMessage="Kullanıcı adı veya şifre yanlış.")  
+        else:
+            return render_template("index.html", isAlert=False)
     except:
-        return render_template("error.html")
+        return render_template("index.html", isAlert=False)
 
 
 @app.route("/signup", methods=["POST","GET"])
@@ -78,4 +81,4 @@ def updateBook():
     return render_template("updateBook.html")
 
 if __name__ == '__main__':
-    app.run(host='192.168.1.134',debug=True,port=5000)
+    app.run(debug=True)
