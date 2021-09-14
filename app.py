@@ -21,7 +21,7 @@ def index():
             if username==" " or password==" ":
                 return render_template("index.html")
             else:
-                nameQuery = db.session.query(Member.memberName).filter(Member.memberName==username).first()
+                nameQuery = db.session.query(Member.memberNick).filter(Member.memberNick==username).first()
                 passQuery = db.session.query(Member.memberPass).filter(Member.memberPass==password).first()
                 if nameQuery[0] == username and passQuery[0] == password:
                     return redirect(url_for("listofBooks"))
