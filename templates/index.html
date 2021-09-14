@@ -14,9 +14,10 @@
 </head>
 <body>
     <div style="margin-Top:150px;" class="container">
+        {% block content %} {% endblock %}
         <h3>Welcome to Library</h3>
         <hr>
-        <form method="POST">
+        <form action="/" method="POST">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Username</label>
                 <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
