@@ -9,7 +9,18 @@
 </head>
 <body>
     <div style="margin-Top:150px;" class="container">
-        <input class="form-control" type="text" placeholder="Please enter your book id">
+        <h3>Update Book</h3>
+        <hr>
+        <form method="POST">
+            <label>Please enter a number 1-6 for record to change, <br/>1: for book name changes,<br/>2: for edition year changes,<br/>3: for author changes,<br/>
+                4: for owner name changes,<br/>5: for category changes,<br/>6: for translator name changes</label>
+            <input class="form-control" type="text" name="change_id" placeholder="Please enter changing id">
+            <br/>
+            <label>Enter information you would like to update</label>
+            <input class="form-control" type="text" name="info" placeholder="Information">
+            <br/>
+            <button class="btn btn-primary">Updated</button>
+        </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

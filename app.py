@@ -1,6 +1,8 @@
-from flask import Flask, render_template,request,redirect,url_for
+from flask import Flask, render_template,request,redirect, sessions,url_for
 from flask_sqlalchemy import SQLAlchemy
 import datetime, logging
+
+from werkzeug.datastructures import Authorization
 from tables import LibraryTable, LoginfoTable
 from member import Member
 
@@ -19,20 +21,20 @@ def index():
             password = request.values.get("password")
            
             if username=="" or username==None or password=="" or password == None:
-                return render_template("index.html", isAlert=True, alertMessage="Kullanıcı adı ve şifrenizi giriniz.")
+                return render_template("index.html", isAlert=True, alertMessage="Please enter your username and password.")
             else:
                 nameQuery = db.session.query(Member.memberNick).filter(Member.memberNick==username).first()
                 passQuery = db.session.query(Member.memberPass).filter(Member.memberPass==password).first()
-                
                 if nameQuery != None or passQuery != None:
                     if nameQuery[0] == username and passQuery[0] == password:
                         return redirect(url_for("listofBooks"))
                 else:
-                    return render_template("index.html", isAlert=True, alertMessage="Kullanıcı adı veya şifre yanlış.")  
+                    return render_template("index.html", isAlert=True, alertMessage="Your username or password is wrong.")  
         else:
             return render_template("index.html", isAlert=False)
     except:
         return render_template("index.html", isAlert=False)
+
 
 
 @app.route("/signup", methods=["POST","GET"])
@@ -60,6 +62,7 @@ def listofBooks():
     return render_template("books.html", books=books)
 
 
+
 @app.route("/addBook", methods=["POST","GET"]) 
 def addBook():
     if request.method == "POST":
@@ -76,9 +79,92 @@ def addBook():
         return redirect(url_for("listofBooks"))
     return render_template("addBook.html")
 
-@app.route("/updatebook", methods=["GET","POST"])
-def updateBook():
-    return render_template("updateBook.html")
+
+
+@app.route("/updatebook/<string:id>", methods=["GET","POST"])
+def updateBook(id):
+    if request.method == "POST":
+        change_id = request.values.get("change_id")
+        info      = request.values.get("info")
+        
+    #     if change_id == "1":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.book_name = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book name changed: {info}", owner=owner,library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+            
+    #     elif change_id == "2":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.edition_year = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book edition year changed: {info}", owner=owner, library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+
+    #     elif change_id == "3":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.author = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book author changed: {info}",owner=owner, library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+
+    #     elif change_id == "4":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.owner_name = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book owner name changed: {info}", owner=owner,library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+            
+    #     elif change_id== "5":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.category = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book category changed: {info}", owner=owner, library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+
+    #     elif change_id == "6":
+    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         query.translator = info
+    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    #         owner = queryOwner.owner_name
+    #         log = LoginfoTable(process=f"Book translator changed: {info}", owner=owner, library_id=id)
+    #         db.session.add(log)
+    #         db.session.commit()
+    #         return redirect(url_for("listofBooks"))
+    else:
+        return render_template("updateBook.html")
+
+
+@app.route("/deletebook/<string:id>", methods=["POST","GET"])
+def deleteBook(id):
+    if request.method == "POST":
+        id = request.values.get("id")
+        queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+        owner = queryOwner.owner_name
+        log = LoginfoTable(process=f"Deleted {id}.book",owner=owner, library_id=id)
+        queryDelete = db.session.query(LibraryTable).filter(LibraryTable.book_id==id).delete()
+        db.session.add(log)
+        db.session.commit()
+        return redirect(url_for("listofBooks"))
+    else:
+        return render_template("deleteBook.html")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
