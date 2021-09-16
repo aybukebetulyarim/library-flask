@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library</title>
+    <title>Log</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <button type="button" class="btn btn-info"><a href="addBook">Add Book</a></button>
-    <button type="button" class="btn btn-info"><a href="log">Log</a></button>
+    <button type="button" class="btn btn-info"><a href="books">Back</a></button>
 
-
-    <h1>BOOK TABLE</h1>
+    <h1>LOG TABLE</h1>
     <style>
           @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 
@@ -58,44 +56,29 @@
     </style>
 </head>
 <body>
-  {% block content %}
-  {% if isAlert %}
-  <div class="alert alert-primary" role="alert">
-      {{ alertMessage }}
-  </div>
-  {% endif %}
-  {% endblock %}
     <table>
         <thead>
           <tr>
             <th>Id</th>
-            <th>Book Name</th>
-            <th>Edition Year</th>
-            <th>Author</th>
-            <th>Owner Name</th>
-            <th>Category</th>
-            <th>Translator</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th>Date-Time</th>
+            <th>Process</th>
+            <th>Owner</th>
+            <th>Book Id</th>
         </thead>
         <tbody>
-          {% for book in books %}
+          {% for log in logs %}
           <tr>
-            <td>{{ book.book_id }}</td>
-            <td>{{ book.book_name }}</td>
-            <td>{{ book.edition_year }}</td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.owner_name }}</td>
-            <td>{{ book.category }}</td>
-            <td>{{ book.translator }}</td>
-            <td><button class="btn btn-secondary"><a href="updatebook/{{book.book_id}}">Update</a></button></td>
-            <td><button class="btn btn-secondary"><a href="books/{{ book.book_id }}">Delete</a></button></td>
+            <td>{{ log.book_id_log }}</td>
+            <td>{{ log.date_time }}</td>
+            <td>{{ log.process }}</td>
+            <td>{{ log.owner }}</td>
+            <td>{{ log.library_id }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   
 </body>
-</html> 
+</html>

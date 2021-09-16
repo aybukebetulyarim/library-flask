@@ -1,10 +1,8 @@
 from flask import Flask, render_template,request,redirect, sessions,url_for
 from flask_sqlalchemy import SQLAlchemy
-import datetime, logging
-
-from werkzeug.datastructures import Authorization
 from tables import LibraryTable, LoginfoTable
 from member import Member
+import bcrypt
 
 
 app = Flask(__name__)
@@ -18,23 +16,21 @@ def index():
     try:
         if request.method == "POST":
             username = request.values.get("username")
-            password = request.values.get("password")
+            password = request.values.get("password").encode('utf-8')
            
             if username=="" or username==None or password=="" or password == None:
                 return render_template("index.html", isAlert=True, alertMessage="Please enter your username and password.")
             else:
                 nameQuery = db.session.query(Member.memberNick).filter(Member.memberNick==username).first()
-                passQuery = db.session.query(Member.memberPass).filter(Member.memberPass==password).first()
-                if nameQuery != None or passQuery != None:
-                    if nameQuery[0] == username and passQuery[0] == password:
-                        return redirect(url_for("listofBooks"))
+                passQuery = db.session.query(Member.memberPass).filter(Member.memberNick==username).first()
+                if bcrypt.checkpw(password, passQuery[0]) and nameQuery[0] == username:
+                    return redirect(url_for("listofBooks"))
                 else:
-                    return render_template("index.html", isAlert=True, alertMessage="Your username or password is wrong.")  
+                    return render_template("index.html", isAlert=True, alertMessage="Your username or password is wrong.")
         else:
             return render_template("index.html", isAlert=False)
     except:
-        return render_template("index.html", isAlert=False)
-
+         return render_template("index.html", isAlert=False)
 
 
 @app.route("/signup", methods=["POST","GET"])
@@ -45,9 +41,9 @@ def signup():
         memberNick    = request.values.get("memberNick")
         email         = request.values.get("email")
         memberPass    = request.values.get("memberPass")
+        hashed        = bcrypt.hashpw(memberPass.encode('utf-8'), bcrypt.gensalt())
         memberAuth    = request.values.get("memberAuth")
-
-        member = Member(memberName=memberName,memberSurname=memberSurname,memberNick=memberNick,email=email,memberPass=memberPass, memberAuth=memberAuth)
+        member = Member(memberName=memberName,memberSurname=memberSurname,memberNick=memberNick,email=email,memberPass=hashed, memberAuth=memberAuth)
         db.session.add(member)
         db.session.commit()
         return redirect(url_for("listofBooks"))
@@ -60,7 +56,6 @@ def signup():
 def listofBooks():
     books = db.session.query(LibraryTable).all()
     return render_template("books.html", books=books)
-
 
 
 @app.route("/addBook", methods=["POST","GET"]) 
@@ -86,85 +81,63 @@ def updateBook(id):
     if request.method == "POST":
         change_id = request.values.get("change_id")
         info      = request.values.get("info")
-        
-    #     if change_id == "1":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.book_name = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book name changed: {info}", owner=owner,library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-            
-    #     elif change_id == "2":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.edition_year = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book edition year changed: {info}", owner=owner, library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-
-    #     elif change_id == "3":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.author = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book author changed: {info}",owner=owner, library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-
-    #     elif change_id == "4":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.owner_name = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book owner name changed: {info}", owner=owner,library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-            
-    #     elif change_id== "5":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.category = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book category changed: {info}", owner=owner, library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-
-    #     elif change_id == "6":
-    #         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         query.translator = info
-    #         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
-    #         owner = queryOwner.owner_name
-    #         log = LoginfoTable(process=f"Book translator changed: {info}", owner=owner, library_id=id)
-    #         db.session.add(log)
-    #         db.session.commit()
-    #         return redirect(url_for("listofBooks"))
-    else:
-        return render_template("updateBook.html")
-
-
-@app.route("/deletebook/<string:id>", methods=["POST","GET"])
-def deleteBook(id):
-    if request.method == "POST":
-        id = request.values.get("id")
+        query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
         owner = queryOwner.owner_name
-        log = LoginfoTable(process=f"Deleted {id}.book",owner=owner, library_id=id)
-        queryDelete = db.session.query(LibraryTable).filter(LibraryTable.book_id==id).delete()
-        db.session.add(log)
-        db.session.commit()
+        if change_id == "1":
+            old_version = query.book_name
+            query.book_name = info
+            log = LoginfoTable(process=f"book_name {old_version}->{info}", owner=owner,library_id=id)
+            db.session.add(log)
+            db.session.commit()
+        elif change_id == "2":
+            old_version = query.edition_year
+            query.edition_year = info
+            log = LoginfoTable(process=f"edition_year {old_version}->{info}", owner=owner,library_id=id)
+            db.session.add(log)
+            db.session.commit()
+        elif change_id == "3":
+            old_version = query.author
+            query.author = info
+            log = LoginfoTable(process=f"author {old_version}->{info}", owner=owner,library_id=id)
+            db.session.add(log)
+            db.session.commit()
+        elif change_id == "4":
+            old_version = query.owner_name
+            query.owner_name = info
+            log = LoginfoTable(process=f"owner_name {old_version}->{info}", owner=info,library_id=id)
+            db.session.add(log)
+            db.session.commit()
+        elif change_id == "5":
+            old_version = query.category
+            query.category = info
+            log = LoginfoTable(process=f"category {old_version}->{info}", owner=owner,library_id=id)
+            db.session.add(log)
+            db.session.commit()
+        elif change_id == "6":
+            old_version = query.translator
+            query.translator = info
+            log = LoginfoTable(process=f"translator {old_version}->{info}", owner=owner,library_id=id)
+            db.session.add(log)
+            db.session.commit()
         return redirect(url_for("listofBooks"))
-    else:
-        return render_template("deleteBook.html")
+    return render_template("updateBook.html")
 
 
+@app.route("/books/<string:id>")
+def deleteBook(id):
+    queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
+    owner = queryOwner.owner_name
+    log = LoginfoTable(process=f"Deleted {id}, owner->{owner}",owner=owner, library_id=id)
+    db.session.query(LibraryTable).filter(LibraryTable.book_id==id).delete()
+    db.session.add(log)
+    db.session.commit()
+    return redirect(url_for('listofBooks'))
+
+@app.route("/log")
+def log():
+    log = db.session.query(LoginfoTable).all()
+    return render_template("log.html", logs=log)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="192.168.1.134",debug=True, port=5000)
