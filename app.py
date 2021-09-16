@@ -140,4 +140,4 @@ def log():
     return render_template("log.html", logs=log)
 
 if __name__ == '__main__':
-    app.run(host="192.168.1.134",debug=True, port=5000)
+    app.run(debug=True)
