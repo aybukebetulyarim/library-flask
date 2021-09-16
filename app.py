@@ -17,14 +17,19 @@ def index():
         if request.method == "POST":
             username = request.values.get("username")
             password = request.values.get("password").encode('utf-8')
-           
+            auth     = request.values.get("memberAuth")
             if username=="" or username==None or password=="" or password == None:
                 return render_template("index.html", isAlert=True, alertMessage="Please enter your username and password.")
             else:
                 nameQuery = db.session.query(Member.memberNick).filter(Member.memberNick==username).first()
                 passQuery = db.session.query(Member.memberPass).filter(Member.memberNick==username).first()
+                authQuery = db.session.query(Member.memberAuth).filter(Member.memberNick==username).first()
+                print(authQuery[0])
                 if bcrypt.checkpw(password, passQuery[0]) and nameQuery[0] == username:
-                    return redirect(url_for("listofBooks"))
+                    if authQuery[0]==auth and auth =="1":
+                        return redirect(url_for("listofBooks"))
+                    elif authQuery[0]==auth and auth=="0":
+                        return render_template("user.html")
                 else:
                     return render_template("index.html", isAlert=True, alertMessage="Your username or password is wrong.")
         else:
@@ -140,4 +145,4 @@ def log():
     return render_template("log.html", logs=log)
 
 if __name__ == '__main__':
-    app.run(host="192.168.1.134",debug=True, port=5000)
+    app.run(host="192.168.1.134", debug=True, port=5000)

@@ -1,71 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <button type="button" class="btn btn-info"><a href="addBook">Add Book</a></button>
-    <button type="button" class="btn btn-info"><a href="log">Log</a></button>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
-
-    <h1>BOOK TABLE</h1>
-    <style>
-          @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
-
-        *, *:before, *:after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        }
-
-        body {
-        background: whitesmoke;
-        font-family: 'Cambria', sans-serif;
-        }
-        h1{
-          color: #1c92ee;
-          margin:100px;
-          text-align: center;
-        }
-        table {
-        background: #3a3b3b;
-        border-radius: 0.25em;
-        border-collapse: collapse;
-        margin: 100px auto;
-        }
-        th {
-        border-bottom: 1px solid #000000;
-        color: #1c92ee;
-        font-size: 0.85em;
-        font-weight: 600;
-        padding: 0.5em 1em;
-        text-align: center;
-        }
-        td {
-        color: #fff;
-        font-weight: 400;
-        padding: 0.65em 1em;
-        text-align:center;
-        }
-        .disabled td {
-        color: #4F5F64;
-        }
-        tbody tr {
-        transition:0.25s ease;
-        }
-    </style>
+    <!-- <button type="button" class="btn btn-outline-primary"><a href="addBook">Add Book</a></button>
+    <button type="button" class="btn btn-outline-primary"><a href="log">Log</a></button> -->
+    
 </head>
-<body>
-  {% block content %}
-  {% if isAlert %}
-  <div class="alert alert-primary" role="alert">
-      {{ alertMessage }}
-  </div>
-  {% endif %}
-  {% endblock %}
-    <table>
+<h1>BOOK TABLE</h1>
+<body style="margin-Top:150px;" class="container">
+  
+    <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>Id</th>
@@ -88,14 +38,14 @@
             <td>{{ book.owner_name }}</td>
             <td>{{ book.category }}</td>
             <td>{{ book.translator }}</td>
-            <td><button class="btn btn-secondary"><a href="updatebook/{{book.book_id}}">Update</a></button></td>
-            <td><button class="btn btn-secondary"><a href="books/{{ book.book_id }}">Delete</a></button></td>
+            <td><button class="btn btn-outline-primary"><a href="updatebook/{{book.book_id}}">Update</a></button></td>
+            <td><button class="btn btn-outline-primary"><a href="books/{{ book.book_id }}">Delete</a></button></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
 </body>
 </html> 
