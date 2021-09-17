@@ -1,13 +1,15 @@
-from flask import Flask, render_template,request,redirect, sessions,url_for
+from flask import Flask, render_template,request,redirect, session,url_for
 from flask_sqlalchemy import SQLAlchemy
 from tables import LibraryTable, LoginfoTable
-from member import Member
+from member import Member 
 import bcrypt
 
 
 app = Flask(__name__)
+app.secret_key = "secretkey"
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datab.db'
 
 db = SQLAlchemy(app)
 
@@ -18,6 +20,7 @@ def index():
             username = request.values.get("username")
             password = request.values.get("password").encode('utf-8')
             auth     = request.values.get("memberAuth")
+            
             if username=="" or username==None or password=="" or password == None:
                 return render_template("index.html", isAlert=True, alertMessage="Please enter your username and password.")
             else:
@@ -27,6 +30,8 @@ def index():
                 print(authQuery[0])
                 if bcrypt.checkpw(password, passQuery[0]) and nameQuery[0] == username:
                     if authQuery[0]==auth and auth =="1":
+                        session["username"] = username
+                        session["password"] = password
                         return redirect(url_for("listofBooks"))
                     elif authQuery[0]==auth and auth=="0":
                         return render_template("user.html")
@@ -89,40 +94,42 @@ def updateBook(id):
         query = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
         queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
         owner = queryOwner.owner_name
+        username_session = session.get("username")
+        print(username_session)
         if change_id == "1":
             old_version = query.book_name
             query.book_name = info
-            log = LoginfoTable(process=f"book_name {old_version}->{info}", owner=owner,library_id=id)
+            log = LoginfoTable(process=f"book_name {old_version}->{info}", owner=owner, username=username_session,library_id=id)
             db.session.add(log)
             db.session.commit()
         elif change_id == "2":
             old_version = query.edition_year
             query.edition_year = info
-            log = LoginfoTable(process=f"edition_year {old_version}->{info}", owner=owner,library_id=id)
+            log = LoginfoTable(process=f"edition_year {old_version}->{info}", owner=owner,username=username_session,library_id=id)
             db.session.add(log)
             db.session.commit()
         elif change_id == "3":
             old_version = query.author
             query.author = info
-            log = LoginfoTable(process=f"author {old_version}->{info}", owner=owner,library_id=id)
+            log = LoginfoTable(process=f"author {old_version}->{info}", owner=owner,username=username_session,library_id=id)
             db.session.add(log)
             db.session.commit()
         elif change_id == "4":
             old_version = query.owner_name
             query.owner_name = info
-            log = LoginfoTable(process=f"owner_name {old_version}->{info}", owner=info,library_id=id)
+            log = LoginfoTable(process=f"owner_name {old_version}->{info}", owner=info,username=username_session,library_id=id)
             db.session.add(log)
             db.session.commit()
         elif change_id == "5":
             old_version = query.category
             query.category = info
-            log = LoginfoTable(process=f"category {old_version}->{info}", owner=owner,library_id=id)
+            log = LoginfoTable(process=f"category {old_version}->{info}", owner=owner,username=username_session,library_id=id)
             db.session.add(log)
             db.session.commit()
         elif change_id == "6":
             old_version = query.translator
             query.translator = info
-            log = LoginfoTable(process=f"translator {old_version}->{info}", owner=owner,library_id=id)
+            log = LoginfoTable(process=f"translator {old_version}->{info}", owner=owner,username=session.get("username"),library_id=id)
             db.session.add(log)
             db.session.commit()
         return redirect(url_for("listofBooks"))
@@ -133,7 +140,7 @@ def updateBook(id):
 def deleteBook(id):
     queryOwner = db.session.query(LibraryTable).filter(LibraryTable.book_id == id).first()
     owner = queryOwner.owner_name
-    log = LoginfoTable(process=f"Deleted {id}, owner->{owner}",owner=owner, library_id=id)
+    log = LoginfoTable(process=f"Deleted {id}, owner->{owner}",owner=owner, username= session.get("username"),library_id=id)
     db.session.query(LibraryTable).filter(LibraryTable.book_id==id).delete()
     db.session.add(log)
     db.session.commit()
@@ -145,8 +152,4 @@ def log():
     return render_template("log.html", logs=log)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    app.run(host="192.168.1.134", debug=True, port=5000)
-=======
     app.run(debug=True)
->>>>>>> 079670f50c8d5416ea39e76faf2969a658a6e5dc

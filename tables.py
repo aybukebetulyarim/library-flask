@@ -5,7 +5,7 @@ import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datab.db'
 
 db = SQLAlchemy(app) 
 
@@ -36,12 +36,14 @@ class LoginfoTable(db.Model):
     date_time     = db.Column(db.String)
     process       = db.Column(db.String)
     owner         = db.Column(db.String)
+    username      = db.Column(db.String)
     library_id    = db.Column(db.Integer, db.ForeignKey('libraryTable.book_id'))
     
-    def __init__(self,process:str,owner:str,library_id:int):
+    def __init__(self,process:str,owner:str,username:str,library_id:int):
         self.date_time  = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.process    = process
         self.owner      = owner
+        self.username   = username
         self.library_id = library_id
 
 db.create_all()
