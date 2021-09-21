@@ -61,8 +61,8 @@
             <td>{{ book.owner_name }}</td>
             <td>{{ book.category }}</td>
             <td>{{ book.translator }}</td>
-            <td><button class="btn btn-outline-primary"><a href="updatebook/{{book.book_id}}">Update</a></button></td>
-            <td><button class="btn btn-outline-primary"><a href="books/{{ book.book_id }}">Delete</a></button></td>
+            <td><button class="btn btn-outline-primary"><a styles="text-decoration=none;" href="updatebook/{{book.book_id}}">Update</a></button></td>
+            <td><button class="btn btn-outline-primary"><a styles="text-decoration=none;" href="books/{{ book.book_id }}">Delete</a></button></td>
           </tr>
           {% endfor %}
         </tbody>
