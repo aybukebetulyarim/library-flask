@@ -152,4 +152,4 @@ def log():
     return render_template("log.html", logs=log)
 
 if __name__ == '__main__':
-    app.run('localhost',5000,debug=True)
+    app.run(debug=True)
